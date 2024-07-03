@@ -4,35 +4,6 @@ let playerTwoArray = []
 let playersArray = ["playerOne", "playerTwo"]
 
 document.addEventListener("DOMContentLoaded", () => {
-    let rootElement = document.getElementById("root")
-
-    const divElem = document.createElement("div")
-    divElem.id = "divElement"
-    divElem.classList.add("flex")
-
-    const pElem = document.createElement("p")
-    pElem.textContent = "Select your player"
-
-    const btnOne = document.createElement("button")
-    btnOne.type = "button"
-    btnOne.textContent = "O"
-    btnOne.id = "O"
-
-    const btnTwo = document.createElement("button")
-    btnTwo.type = "button"
-    btnTwo.textContent = "X"
-    btnTwo.id = "X"
-
-    divElem.append(pElem, btnOne, btnTwo)
-    document.body.insertBefore(divElem, rootElement)
-
-    // for(let i = 0; i < 9; i++){
-    //     let btnElement = document.createElement("button")
-    //     btnElement.classList.add("btn")
-    //     btnElement.id = i
-    //     rootElement.appendChild(btnElement)
-    // }
-    rootElement.classList.add("grid")
     selectPlayer()
 })
 
@@ -52,26 +23,40 @@ function selectPlayer() {
 }
 
 
+document.getElementById("root").classList.add("hidden")
+document.getElementById("O").addEventListener("click", () => {
+    document.getElementById("root").classList.remove("hidden")
+}) 
+document.getElementById("X").addEventListener("click", () => {
+    document.getElementById("root").classList.remove("hidden")
+}) 
+    
+
+
 let whosTurn = Math.floor(Math.random() * playersArray.length) + 1
 buttons = document.getElementsByClassName("btn")
+if(whosTurn === 1) {
+    console.log("player 1 plays")
+} else if (whosTurn === 2) {
+    console.log("player 2 plays")
+}
 for(let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", whoPlaysFirst)
 }
 
-function whoPlaysFirst(e) {
+
+function whoPlaysFirst(e) {       
     if(whosTurn === 1) {
-        console.log("player 1 plays")
+        console.log("player 1 played")
     } else if (whosTurn === 2) {
-        console.log("player 2 plays")
+        console.log("player 2 played")
     }
-            
     if(e.target.textContent == "") {
         if(whosTurn === 1) {
             e.target.textContent = "X"
             playerOneArray.push(e.target.id)
             console.log(playerOneArray)
             console.log(playerTwoArray)
-            console.log(winningThrees)
             checkWinner()
             whosTurn = 2
         } else {
@@ -79,7 +64,6 @@ function whoPlaysFirst(e) {
             playerTwoArray.push(e.target.id)
             console.log(playerOneArray)
             console.log(playerTwoArray)
-            console.log(winningThrees)
             checkWinner()
             whosTurn = 1
         }
@@ -91,14 +75,12 @@ function whoPlaysFirst(e) {
         
 function checkWinner() {
     for(let i = 0; i < winningThrees.length; i++){
-        if(playerOneArray.length > 2 || playerTwoArray.length > 2){
-            if(winningThrees[i] == playerOneArray) {
+        if(playerOneArray.length > 2 && playerTwoArray.length > 2){
+            if(playerOneArray.includes(winningThrees[i])) {
                 console.log("Player 1 is the winner")
-            } else if(winningThrees[i] == playerTwoArray) {
+            } else if(playerTwoArray.includes(winningThrees[1])) {
                 console.log("Player 2 is the winner")
-            } else {
-                console.log("It's a draw")
-            }
+            } 
         }
     } 
 }
